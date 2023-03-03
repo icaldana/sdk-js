@@ -1,13 +1,15 @@
 # SDK MercadoPago.js V2
+
 Mercado Pago's Official JS SDK
 
 <br />
 
 # Table of Contents
+
 1. [About](#about)
 2. [Support](#support)
-    1. [Desktop web](#desktop-web)
-    2. [Mobile web](#mobile-web)
+   1. [Desktop web](#desktop-web)
+   2. [Mobile web](#mobile-web)
 3. [Installation](#installation)
 4. [Initializing](#initializing)
 5. [Checkout API](#checkout-api)
@@ -17,7 +19,8 @@ Mercado Pago's Official JS SDK
 
 <br />
 
-## About 
+## About
+
 It is a **clientside SDK** whose main objective is to **facilitate the integration of Mercado Pago payment solutions on your website**, thus allowing a secure flow and within the security standards of sensitive data transfer.
 
 <br />
@@ -26,31 +29,31 @@ It is a **clientside SDK** whose main objective is to **facilitate the integrati
 
 ### Desktop web
 
-
-| Browser | Support |
-|---------- | ----------|
-| Chrome    | 80+
-| Firefox    | 74+
-| Safari    | 14+
-| Edge | 80+
-| Opera | Complete
-| Internet Explorer    | 11
+| Browser           | Support  |
+| ----------------- | -------- |
+| Chrome            | 80+      |
+| Firefox           | 74+      |
+| Safari            | 14+      |
+| Edge              | 80+      |
+| Opera             | Complete |
+| Internet Explorer | 11       |
 
 <br />
 
 ### Mobile web
-| Browser | Support |
-|---------- | ----------|
-| Chrome    | Complete
-| Firefox    | Complete
-| Safari    | Complete
-| Android Browser    | Complete
+
+| Browser         | Support  |
+| --------------- | -------- |
+| Chrome          | Complete |
+| Firefox         | Complete |
+| Safari          | Complete |
+| Android Browser | Complete |
 
 <br />
 
 ## Installation
-To install the SDK, you must include script in your application's HTML or install a package on `npm`
 
+To install the SDK, you must include script in your application's HTML or install a package on `npm`
 
 ```html
 <script src="https://sdk.mercadopago.com/js/v2"></script>
@@ -62,9 +65,18 @@ or
 npm install @mercadopago/sdk-js;
 ```
 
+### ReactJS library
+
+We also support a ReactJS library that makes the integration really simple. **For now, it is only available for [Checkout Bricks](/API/bricks/index.md).**
+
+```npm
+npm install @mercadopago/sdk-react;
+```
+
 <br />
 
 ## Initializing
+
 To start the SDK, you need to assign your `public_key` along with some `options`.
 
 If you are using `html` reference:
@@ -72,9 +84,9 @@ If you are using `html` reference:
 ### Example:
 
 ```javascript
-const mp = new MercadoPago('YOUR_PUBLIC_KEY', {
-  locale: 'en-US',
-})
+const mp = new MercadoPago("YOUR_PUBLIC_KEY", {
+  locale: "en-US",
+});
 ```
 
 If you are using `npm` package:
@@ -82,17 +94,18 @@ If you are using `npm` package:
 ### Example:
 
 ```javascript
-import { loadMercadoPago } from '@mercadopago/sdk-js'
+import { loadMercadoPago } from "@mercadopago/sdk-js";
 
 await loadMercadoPago();
-const mp = new window.MercadoPago('YOUR_PUBLIC_KEY', {
-  locale: 'en-US',
-})
+const mp = new window.MercadoPago("YOUR_PUBLIC_KEY", {
+  locale: "en-US",
+});
 ```
 
 <br/>
 
 ## Checkout API
+
 Use our APIs to build your own payment experience on your website or mobile application. From basic to advanced settings, control the entire experience.
 
 There are multiple supported ways to integrate Checkout API. Ranging from the most simple integration, using Checkout Bricks, to integrating with the Core Methods, where the integrator has total control of the checkout experience.
@@ -103,7 +116,7 @@ For a complete reference on the integration options, check the [API reference](#
 
 ### Full example (using Bricks)
 
-```HTML 
+```HTML
 <html>
     <body>
         <div id="cardPaymentBrick_container"></div>
@@ -126,13 +139,13 @@ For a complete reference on the integration options, check the [API reference](#
                 visual: {
                     style: {
                         theme: 'dark' // 'default' |'dark' | 'bootstrap' | 'flat'
-                    } 
+                    }
                 }
             },
             callbacks: {
                 onSubmit: (cardFormData) => {
                     return new Promise((resolve, reject) => {
-                        fetch("/process_payment", { 
+                        fetch("/process_payment", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -155,7 +168,7 @@ For a complete reference on the integration options, check the [API reference](#
                 onError: (error) => {
                     // handle error
                 }
-            }                       
+            }
         }
 
         cardPaymentBrickController = await bricksBuilder.create('cardPayment', 'cardPaymentBrick_container', settings);
@@ -166,9 +179,8 @@ For a complete reference on the integration options, check the [API reference](#
 
 ```
 
-
-
 ## Checkout Pro
+
 Checkout Pro is the integration that allows you to charge through our web form from any device in a simple, fast and secure way.
 
 See the [API reference](#api)
@@ -178,26 +190,26 @@ See the [API reference](#api)
 ### Full example
 
 ```html
-    <!DOCTYPE html>
-    <html>
-    <body>
-        <div class="cho-container"></div>
-        <script src="https://sdk.mercadopago.com/js/v2"></script>
-        <script>
-            const mp = new MercadoPago('PUBLIC_KEY', {
-                locale: 'en-US'
-            })
-            const checkout = mp.checkout({
-                preference: {
-                    id: 'YOUR_PREFERENCE_ID'
-                }
-            });
-            checkout.render({
-                container: '.cho-container',
-                label: 'Pay'
-            });
-        </script>
-    </body>
+<!DOCTYPE html>
+<html>
+  <body>
+    <div class="cho-container"></div>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script>
+      const mp = new MercadoPago("PUBLIC_KEY", {
+        locale: "en-US",
+      });
+      const checkout = mp.checkout({
+        preference: {
+          id: "YOUR_PREFERENCE_ID",
+        },
+      });
+      checkout.render({
+        container: ".cho-container",
+        label: "Pay",
+      });
+    </script>
+  </body>
 </html>
 ```
 
@@ -210,7 +222,8 @@ See the [API reference](#api)
 SDK instantiation method.
 
 #### Params:
-`public_key` | *string*, **REQUIRED** 
+
+`public_key` | _string_, **REQUIRED**
 
 It is the public key for your account.
 
@@ -218,36 +231,36 @@ It is the public key for your account.
  
 `options` | *object*, **OPTIONAL**
 
-
-|Option name|Values|Default|Type|Description||
-|-|-|-|-|-|-|
-|`locale` |`es-AR`<br>`es-CL`<br>`es-CO`<br>`es-MX`<br>`es-VE`<br>`es-UY`<br>`es-PE`<br>`pt-BR`<br>`en-US`|Browser default locale | *string* | Set the locale | **OPTIONAL** |
-|`advancedFraudPrevention` |`true\|false`| true | *boolean* | Set the advanced fraud prevention status | **OPTIONAL** |
-|`trackingDisabled` |`true\|false`| false | *boolean* | Enable/disable tracking of generic usage metrics | **OPTIONAL** |
+| Option name               | Values                                                                                          | Default                | Type      | Description                                      |              |
+| ------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------- | --------- | ------------------------------------------------ | ------------ |
+| `locale`                  | `es-AR`<br>`es-CL`<br>`es-CO`<br>`es-MX`<br>`es-VE`<br>`es-UY`<br>`es-PE`<br>`pt-BR`<br>`en-US` | Browser default locale | _string_  | Set the locale                                   | **OPTIONAL** |
+| `advancedFraudPrevention` | `true\|false`                                                                                   | true                   | _boolean_ | Set the advanced fraud prevention status         | **OPTIONAL** |
+| `trackingDisabled`        | `true\|false`                                                                                   | false                  | _boolean_ | Enable/disable tracking of generic usage metrics | **OPTIONAL** |
 
 <br />
 
 #### Example:
 
 ```javascript
-const mp = new MercadoPago('PUBLIC_KEY', {
-  locale: 'en-US',
+const mp = new MercadoPago("PUBLIC_KEY", {
+  locale: "en-US",
   advancedFraudPrevention: true,
-})
+});
 ```
+
 <br />
 
 #### Return: `mp instance`
 
 Check the reference for all SDK modules.
 
-||
-|-|
-|[Checkout Bricks](/API/bricks/index.md) |
-|[Card Form](/API/card-form.md) |
-|[Core Methods](/API/core-methods.md) |
-|[Secure Fields](/API/fields.md) |
-|[Checkout Pro](/API/checkout-pro.md) |
+|                                         |
+| --------------------------------------- |
+| [Checkout Bricks](/API/bricks/index.md) |
+| [Card Form](/API/card-form.md)          |
+| [Core Methods](/API/core-methods.md)    |
+| [Secure Fields](/API/fields.md)         |
+| [Checkout Pro](/API/checkout-pro.md)    |
 
 <br />
 
