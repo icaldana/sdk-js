@@ -15,7 +15,7 @@ Example of sending the preference on initialization:
 mp.bricks().create("wallet", "walletBrick_container", {
   initialization: {
     preferenceId: "<PREFERENCE_ID>", // preferenceId generated in the backend
-    redirectMode: "blank",
+    redirectMode: "self",
   },
 });
 ```
@@ -27,7 +27,7 @@ const App = () => {
     <Wallet
       initialization={{
         preferenceId: "YOUR_PREFERENCE_ID",
-        redirectMode: "blank",
+        redirectMode: "self",
       }}
     />
   );
@@ -44,7 +44,7 @@ Example of sending the preference in callback `onSubmit`:
 // HTML/JS
 mp.bricks().create("wallet", "walletBrick_container", {
   initialization: {
-    redirectMode: "blank",
+    redirectMode: "self",
   },
   callbacks: {
     onSubmit: () => {
@@ -89,7 +89,7 @@ mp.bricks().create("wallet", "walletBrick_container", {
 const App = () => {
   return (
     <Wallet
-      initialization={{ redirectMode: "blank" }}
+      initialization={{ redirectMode: "self" }}
       onSubmit={() => {
         // Callback called when clicking Wallet Brick.
         // This is possible because the brick is a button.
@@ -163,10 +163,10 @@ Initialization is an object with the properties the brick will initialize with.
 
 | Initialization key | Type     | Description                                                                 |               |
 | ------------------ | -------- | --------------------------------------------------------------------------- | ------------- |
-| `preferenceId`     | `string` | Preference generated in the backend                                         | **OPTIONAL⁴** |
+| `preferenceId`     | `string` | Preference generated in the backend                                         | **OPTIONAL³** |
 | `redirectMode`     | `string` | Indicates how the experience will be conducted. [See more](#opening-scheme) | **REQUIRED**  |
 
-⁴ **Optional** when integrating through the flow that creates the preference on submit
+³ **Optional** when integrating through the flow that creates the preference on submit
 
 <br />
 
@@ -176,11 +176,11 @@ The callbacks object contains the auxiliary callbacks functions the brick will c
 
 | Callback key | Description                                      |               | Params       | Returns         |
 | ------------ | ------------------------------------------------ | ------------- | ------------ | --------------- |
-| `onSubmit`   | It is called when the user clicks on the brick   | **REQUIRED³** | `void`       | `Promise<void>` |
+| `onSubmit`   | It is called when the user clicks on the brick   | **REQUIRED⁴** | `void`       | `Promise<void>` |
 | `onReady`    | It is called when the brick finishes loading.    | **OPTIONAL**  | `void`       | `void`          |
 | `onError`    | It is called when there is an error in the brick | **OPTIONAL**  | `BrickError` | `void`          |
 
-³ **Required** when integrating through the flow that creates the **preference on submit**
+⁴ **Required** when integrating through the flow that creates the **preference on submit**
 
 <br />
 
@@ -207,7 +207,7 @@ Customizations object is used to load Brick under different conditions.
 
 ### **Opening scheme**
 
-The are three ways to open the checkout experience: redirect on the same tab, redirecting to a new tab, which is the default or using a modal.
+The are three ways to open the checkout experience: redirect on the same tab, which is the default, redirecting to a new tab or using a modal.
 
 | Parameter      | value   | Description                                 |
 | -------------- | ------- | ------------------------------------------- |
