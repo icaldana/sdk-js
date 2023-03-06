@@ -15,7 +15,7 @@ Example of sending the preference on initialization:
 mp.bricks().create("wallet", "walletBrick_container", {
   initialization: {
     preferenceId: "<PREFERENCE_ID>", // preferenceId generated in the backend
-    redirectMode: "self",
+    redirectMode: "self", // default value is 'self', it can also be omitted
   },
 });
 ```
@@ -26,8 +26,8 @@ const App = () => {
   return (
     <Wallet
       initialization={{
-        preferenceId: "YOUR_PREFERENCE_ID",
-        redirectMode: "self",
+        preferenceId: "PREFERENCE_ID",  // preferenceId generated in the backend
+        redirectMode: "self", // default value is 'self', it can also be omitted
       }}
     />
   );
