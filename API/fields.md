@@ -98,6 +98,45 @@ Options:
 
 <br />
 
+### `mp instance`.fields.updateCardToken(`token`)
+Token update method
+
+<br />
+
+#### Returns: `Promise<CardTokenResponse | void>`
+
+`CardTokenResponse`
+```js
+{
+    id: string,
+    public_key: string,
+    card_id?: unknown,
+    luhn_validation: boolean,
+    status: string,
+    date_used?: unknown,
+    card_number_length: number,
+    date_created: Date,
+    first_six_digits: string,
+    last_four_digits: string,
+    security_code_length: number,
+    expiration_month: number,
+    expiration_year: number,
+    date_last_updated: Date,
+    date_due: Date,
+    live_mode: boolean,
+    cardholder: Cardholder,
+}
+```
+
+<br />
+
+#### Params:
+`token` | _string_, **REQUIRED**
+
+To update the _cardtoken_, it is necessary to fill in the fields that will be updated in the form and send the previously created _cardtoken_ as a parameter
+
+<br />
+
 ### `mp instance`.fields.create(`type`, `options`)
 Field instantiation method.
 
@@ -106,6 +145,24 @@ Example:
 mp.fields.create("cardNumber", {
     placeholder: "Card Number",
 });
+```
+<br />
+
+### `mp instance`.fields.focus()
+Used to focus on secure fields
+
+Example:
+```js
+mp.fields.focus();
+```
+<br />
+
+### `mp instance`.fields.blur()
+Used to blur on secure fields
+
+Example:
+```js
+mp.fields.blur();
 ```
 
 <br />
@@ -129,12 +186,13 @@ The `options` object have properties to customize the field being created.
 
 Options:
 
-|   Option key  |   Type   |        Description                                   |              | Enabled for                    |
-|---------------|----------|------------------------------------------------------|--------------|--------------------------------|
-| `placeholder` | `string` | Defines field placeholder.                           | **OPTIONAL** | ALL                            |
-| `style`       | `object` | Defines field styles. [See more](#style)             | **OPTIONAL** | ALL                            |
-| `customFonts` | `array`  | Defines field customFonts. [See more](#custom-fonts) | **OPTIONAL** | ALL                            |
-| `mode`        | `string` | Defines year mode. [See more](#year-mode)            | **OPTIONAL** | expirationYear, expirationDate |
+|       Option key      |   Type   |        Description                                   |              | Enabled for                    |
+|-----------------------|----------|------------------------------------------------------|--------------|--------------------------------|
+| `placeholder`         | `string` | Defines field placeholder.                           | **OPTIONAL** | ALL                            |
+| `style`               | `object` | Defines field styles. [See more](#style)             | **OPTIONAL** | ALL                            |
+| `customFonts`         | `array`  | Defines field customFonts. [See more](#custom-fonts) | **OPTIONAL** | ALL                            |
+| `mode`                | `string` | Defines year mode. [See more](#year-mode)            | **OPTIONAL** | expirationYear, expirationDate |
+| `enableLuhnValidation`| `boolean`| Defines Luhn validation. [See more](#luhn-validation)| **OPTIONAL** | cardNumber |
 
 <br />
 
@@ -227,6 +285,12 @@ Possible values are `short` or `full`.
 - `full`: year must be of two digits.
 - `undefined`: both formats are accepted.
 
+#### Luhn Validation
+
+Defines whether the card number will be validated by [Luhn](https://en.wikipedia.org/wiki/Luhn_algorithm) validation.
+It is very important to remember that for it to work, the [update](#field-instanceupdateproperties) must have been sent correctly.
+
+
 <br />
 
 ## FIELD HELPERS
@@ -275,6 +339,7 @@ The default events, enabled for every field are: `blur`, `focus`, `ready` or `va
 |focus|`defaultEvent`|Callback triggered when focus event occurs| ALL |
 |ready|`defaultEvent`|Callback triggered when field has been initialized| ALL |
 |change|`defaultEvent`|Callback triggered when field value changes| ALL |
+|paste|`defaultEvent`|Callback triggered when paste some value on field| ALL |
 |validityChange|`validityChangeEvent`|Callback triggered when field validation occurs| ALL |
 |error|`errorEvent`|Callback triggered when error event occurs| ALL |
 |binChange|`binChangeEvent`|Callback triggered when bin state changes from invalid to valid or from valid to invalid. It returns the bin when valid or null when invalid| cardNumber |
@@ -307,7 +372,7 @@ The table below provides information about causes and messages:
         <td><b>Messages</b></td>
     </tr>
     <tr>
-        <td rowspan="2">
+        <td rowspan="3">
 
 `           cardNumber`
         </td>
@@ -323,6 +388,13 @@ The table below provides information about causes and messages:
 `           invalid_length`
         </td>
         <td>cardNumber should be of length between '9' and '18'.</td>
+    </tr>
+    <tr>
+        <td>
+        
+`           invalid_value`
+        </td>
+        <td>card number rejected on Luhn Validation.</td>
     </tr>
     <tr>
         <td rowspan="2">
@@ -397,6 +469,8 @@ The table below provides information about causes and messages:
     </tr>
 </table>
 
+>IMPORTANT: All errors return a detailed object of each error
+
 <br />
 
 `errorEvent`
@@ -451,6 +525,7 @@ The table below specifies the properties available for being updated.
 ```js
 {
     length: number // Between 8 and 19
+    validation: string // 'standard' | 'none'
 }
 ```
 
