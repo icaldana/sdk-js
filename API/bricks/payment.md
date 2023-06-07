@@ -5,7 +5,7 @@ Example:
 ```js
 mp.bricks().create("payment", "paymentBrick_container", {
   initialization: {
-    amount: 1000,
+    amount: 10000,
     preferenceId: "<PREFERENCE_ID>",
   },
   customization: {
