@@ -178,19 +178,52 @@ The callbacks object contains the callbacks functions the brick will call during
 <br />
 
 ```ts
+//   formData: CardData |
+//   TicketData |
+//   BankTransferData |
+//   WalletPurchaseData |
+//   PaymentAdditionalInfo;
+// additionalData?: {
+//   'bin': string,
+//   'lastFourDigits': string,
+//   'cardholderName'?: string,
+// }
 {
-    'token': string,
-    'issuer_id': string,
-    'payment_method_id': string,
-    'transaction_amount': number,
-    'payment_method_option_id': string | null,
-    'processing_mode': string | null,
-    'installments': number,
-    'payer': {
-        'email': string,
-        'identification': {
+      formData: {
+        'token': string,
+        'issuer_id': string,
+        'payment_method_id': string,
+        'transaction_amount': number,
+        'payment_method_option_id': string | null,
+        'processing_mode': string | null,
+        'installments': number,
+        'payer': {
+            'email': string,
+            'identification': {
                 'type': string,
                 'number': string
+            }
+        }
+        additional_info?: {
+            'shipments'?: {
+                'receiver_address': {
+                    'zip_code'?: string,
+                    'state_name'?: string,
+                    'city_name'?: string,
+                    'street_name'?: string,
+                    'street_number'?: number,
+                    'apartment'?: string,
+                },
+            };
+            'items'?: [
+                {
+                  'unit_price': number,
+                  'quantity': number,
+                  'title': string,
+                  'description'?: string,
+                  'picture_url'?: string,
+                }
+            ],
         }
     }
 }
@@ -207,6 +240,8 @@ The callbacks object contains the callbacks functions the brick will call during
 ```ts
 {
     'bin': string
+    'lastFourDigits': string;
+    'cardholderName': string,
 }
 ```
 

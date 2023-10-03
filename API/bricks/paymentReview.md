@@ -7,14 +7,14 @@
 ```js
 mp.bricks().create("payment", "paymentBrick_container", {
   initialization: {
-    amount: 80,
+    amount: 36,
     preferenceId: "<PREFERENCE_ID>",
     items: {
-      totalItemsAmount: 100,
+      totalItemsAmount: 41,
       itemsList: [
         {
-          units: 10,
-          value: 10,
+          units: 20.50,
+          value: 2,
           name: "<NAME>",
           description: "<DESCRIPTION>",
           imageURL: "<IMAGE_URL>",
@@ -22,7 +22,7 @@ mp.bricks().create("payment", "paymentBrick_container", {
       ],
     },
     shipping: {
-      costs: 0,
+      costs: 5,
       shippingMode: "<SHIPPING_MODE>",
       description: "<SHIPPING_DESCRIPTION>",
       receiverAddress: {
@@ -56,11 +56,11 @@ mp.bricks().create("payment", "paymentBrick_container", {
       },
     },
     discounts: {
-      totalDiscountsAmount: 20,
+      totalDiscountsAmount: 10,
       discountsList: [
         {
           name: "<DISCOUNT_NAME>",
-          value: 20,
+          value: 10,
         },
       ],
     },
@@ -357,10 +357,21 @@ The callbacks object contains the callbacks functions the brick will call during
     "bank_transfer" |
     "wallet_purchase" |
     "atm";
-  formData: CardData | TicketData | BankTransferData | WalletPurchaseData;
+  formData: CardData |
+    TicketData |
+    BankTransferData |
+    WalletPurchaseData |
+    PaymentAdditionalInfo;
+  additionalData?: {
+    'bin': string,
+    'lastFourDigits': string,
+    'cardholderName'?: string,
+  }
 }
 ```
+$$
 
+$$
 <br />
 
 > Note: The objects `CardData`, `TicketData` and `BankTransferData` could be directly sent to Mercado Pago `payment` API for processing.
@@ -445,6 +456,8 @@ The callbacks object contains the callbacks functions the brick will call during
 }
 ```
 
+<br />
+
 `WalletPurchaseData`
 
 <br />
@@ -455,6 +468,37 @@ null;
 
 <br />
 
+`PaymentAdditionalInfo`
+
+<br />
+
+```ts
+{  
+    'additional_info'?: {
+        'shipments'?: {
+            'receiver_address': {
+                'zip_code'?: string,
+                'state_name'?: string,
+                'city_name'?: string,
+                'street_name'?: string,
+                'street_number'?: number,
+                'apartment'?: string,
+            },
+        },
+        'items'?: [
+            {
+              'unit_price': number,
+              'quantity': number,
+              'title': string,
+              'description'?: string,
+              'picture_url'?: string,
+            }
+        ],
+    }
+}
+```
+<br />
+
 `AdditionalData`
 
 <br />
@@ -462,6 +506,8 @@ null;
 ```ts
 {
     'bin': string
+    'lastFourDigits': string;
+    'cardholderName'?: string,
 }
 ```
 
