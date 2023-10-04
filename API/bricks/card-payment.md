@@ -114,7 +114,7 @@ The callbacks object contains the callbacks functions the brick will call during
 | ------------- | ---------------------------------------------------------------------- | ------------ | ---------------------------- | --------------- |
 | `onReady`     | It is called when the brick finishes loading                           | **REQUIRED** | `void`                       | `void`          |
 | `onError`     | It is called when there is an error in the Brick                       | **REQUIRED** | `BrickError`                 | `void`          |
-| `onSubmit`    | It is called when the user clicks on the submit button                 | **OPTIONAL** | `CardData`, `AdditionalData` | `Promise<void>` |
+| `onSubmit`    | It is called when the user clicks on the submit button                 | **OPTIONAL** | `CardFormData`, `AdditionalData` | `Promise<void>` |
 | `onBinChange` | It is called when the user fills or update card's BIN (first 8 digits) | **OPTIONAL** | `bin`                        | `void`          |
 
 <br />
@@ -173,75 +173,82 @@ The callbacks object contains the callbacks functions the brick will call during
 
 <br />
 
-`CardData`
+`CardFormData`
 
 <br />
 
 ```ts
-//   formData: CardData |
-//   TicketData |
-//   BankTransferData |
-//   WalletPurchaseData |
-//   PaymentAdditionalInfo;
-// additionalData?: {
-//   'bin': string,
-//   'lastFourDigits': string,
-//   'cardholderName'?: string,
-// }
-{
-      formData: {
-        'token': string,
-        'issuer_id': string,
-        'payment_method_id': string,
-        'transaction_amount': number,
-        'payment_method_option_id': string | null,
-        'processing_mode': string | null,
-        'installments': number,
-        'payer': {
-            'email': string,
-            'identification': {
-                'type': string,
-                'number': string
-            }
-        }
-        additional_info?: {
-            'shipments'?: {
-                'receiver_address': {
-                    'zip_code'?: string,
-                    'state_name'?: string,
-                    'city_name'?: string,
-                    'street_name'?: string,
-                    'street_number'?: number,
-                    'apartment'?: string,
-                },
-            };
-            'items'?: [
-                {
-                  'unit_price': number,
-                  'quantity': number,
-                  'title': string,
-                  'description'?: string,
-                  'picture_url'?: string,
-                }
-            ],
-        }
-    }
-}
+    formData: CardData;
+    additionalData?: AdditionalData;
 ```
 
 > Note: The `CardData` object can be processed directly to the Mercado Pago `payment` API.
 
 <br />
 
+`CardData`
+
+<br />
+
+```ts
+{
+    'token': string,
+    'issuer_id': string,
+    'payment_method_id': string,
+    'transaction_amount': number,
+    'payment_method_option_id': string,
+    'processing_mode': string,
+    'installments': number,
+    'payer': {
+        'email': string,
+        'identification': {
+            'type': string,
+            'number': string,
+        }
+    }
+    'additional_info'?: AdditionalInfo,
+}
+```
+<br />
+
+`AdditionalInfo`
+
+<br />
+
+```ts
+{
+    'shipments'?: {
+        'receiver_address': {
+            'zip_code'?: string,
+            'state_name'?: string,
+            'city_name'?: string,
+            'street_name'?: string,
+            'street_number'?: number,
+            'apartment'?: string,
+        }
+    };
+    'items'?: [
+        {
+            'unit_price': number,
+            'quantity': number,
+            'title': string,
+            'description'?: string,
+            'picture_url'?: string,
+        }
+    ]
+}
+```
+
+<br />
 `AdditionalData`
 
 <br />
 
 ```ts
 {
-    'bin': string
-    'lastFourDigits': string;
-    'cardholderName': string,
+    'bin': string,
+    'lastFourDigits': string,
+    'cardholderName': string
 }
 ```
 
@@ -413,9 +420,9 @@ None.
 
 #### Returns
 
-| Brick         | Return Data |
-| ------------- | ----------- |
-| `cardPayment` | `CardData`  |
+| Brick         | Return Data     |
+| ------------- | --------------- |
+| `cardPayment` | `CardFormData`  |
 
 ### `Brick Controller`.getAdditionalData()
 
