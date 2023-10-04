@@ -362,16 +362,9 @@ The callbacks object contains the callbacks functions the brick will call during
     BankTransferData |
     WalletPurchaseData |
     PaymentAdditionalInfo;
-  additionalData?: {
-    'bin': string,
-    'lastFourDigits': string,
-    'cardholderName'?: string,
-  }
+  additionalData?: AdditionalData;
 }
 ```
-$$
-
-$$
 <br />
 
 > Note: The objects `CardData`, `TicketData` and `BankTransferData` could be directly sent to Mercado Pago `payment` API for processing.
@@ -394,10 +387,11 @@ $$
     'payer': {
         'email': string,
         'identification': {
-                'type': string,
-                'number': string
+            'type': string,
+            'number': string
         }
     }
+    'additional_info'?: PaymentAdditionalInfo,
 }
 ```
 
@@ -437,6 +431,7 @@ $$
         'payment_point'?: string,
         'payment_mode'?: string
     }
+    'additional_info'?: PaymentAdditionalInfo,
 }
 ```
 
